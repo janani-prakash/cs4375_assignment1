@@ -31,13 +31,14 @@ class RNN(nn.Module):
 
     def forward(self, inputs):
         # [to fill] obtain hidden layer representation (https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)
-        _, hidden = 
+        _, hidden = self.rnn(inputs)
+        h_t = hidden[-1]
         # [to fill] obtain output layer representations
-
+        z = self.W(h_t)
         # [to fill] sum over output 
-
+        
         # [to fill] obtain probability dist.
-
+        predicted_vector = self.softmax(z)
         return predicted_vector
 
 
