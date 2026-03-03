@@ -31,13 +31,16 @@ class RNN(nn.Module):
 
     def forward(self, inputs):
         # [to fill] obtain hidden layer representation (https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)
-        _, hidden = 
+        _, hidden = self.rnn(inputs)
+        
         # [to fill] obtain output layer representations
-
+        z = self.W(hidden)
+        
         # [to fill] sum over output 
-
+        z = z.sum(0)
+        
         # [to fill] obtain probability dist.
-
+        predicted_vector = self.softmax(z)
         return predicted_vector
 
 
@@ -175,8 +178,26 @@ if __name__ == "__main__":
             last_train_accuracy = trainning_accuracy
 
         epoch += 1
+        
+test_data = load_data(args.test_data, args.val_data)[0]
 
-
+model.eval()
+correct = 0
+total = 0
+for input_words, gold_label in tqdm(test_data):
+    input_words = " ".join(input_words)
+    input_words = input_words.translate(input_words.maketrans("", "", string.punctuation)).split()
+    vectors = [word_embedding[i.lower()] if i.lower() in word_embedding.keys() else word_embedding['unk'] for i in input_words]
+    vectors = torch.tensor(vectors).view(len(vectors), 1, -1)
+    output = model(vectors)
+    predicted_label = torch.argmax(output)
+    correct += int(predicted_label == gold_label)
+    total += 1
+    
+print("Test accuracy: {}".format(correct/total))
+os.makedirs('results', exist_ok=True)
+with open('results/test.out', 'w') as f:
+    f.write("Test accuracy: {}". format(correct/total))
 
     # You may find it beneficial to keep track of training accuracy or training loss;
 

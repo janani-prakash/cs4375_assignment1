@@ -185,4 +185,30 @@ if __name__ == "__main__":
         print("Validation time for this epoch: {}".format(time.time() - start_time))
 
     # write out to results/test.out
-    
+    # Test loop
+    loss = None
+    correct = 0
+    total = 0
+    test_data, _ = load_data(args.test_data, args.val_data)
+    test_data = convert_to_vector_representation(test_data, word2index)
+    minibatch_size = 16 
+    N = len(valid_data) 
+    for minibatch_index in tqdm(range(N // minibatch_size)):
+        optimizer.zero_grad()
+        loss = None
+        for example_index in range(minibatch_size):
+            input_vector, gold_label = valid_data[minibatch_index * minibatch_size + example_index]
+            predicted_vector = model(input_vector)
+            predicted_label = torch.argmax(predicted_vector)
+            correct += int(predicted_label == gold_label)
+            total += 1
+            example_loss = model.compute_Loss(predicted_vector.view(1,-1), torch.tensor([gold_label]))
+            if loss is None:
+                loss = example_loss
+            else:
+                loss += example_loss
+        loss = loss / minibatch_size
+    print("Test accuracy: {}".format(correct/total))
+    os.makedirs('results', exist_ok=True)
+    with open('results/test.out', 'w') as f:
+        f.write("Test accuracy: {}". format(correct/total))
