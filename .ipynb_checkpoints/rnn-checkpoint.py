@@ -179,7 +179,10 @@ if __name__ == "__main__":
 
         epoch += 1
         
-    test_data = load_data(args.test_data, args.test_data)[0]
+    import json
+    with open(args.test_data) as f:
+        test_json = json.load(f)
+    test_data = [(elt["text"].split(), int(elt["stars"]-1)) for elt in test_json]
     
     model.eval()
     correct = 0
