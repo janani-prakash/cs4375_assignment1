@@ -179,26 +179,26 @@ if __name__ == "__main__":
 
         epoch += 1
         
-test_data = load_data(args.test_data, args.val_data)[0]
-
-model.eval()
-correct = 0
-total = 0
-for input_words, gold_label in tqdm(test_data):
-    input_words = " ".join(input_words)
-    input_words = input_words.translate(input_words.maketrans("", "", string.punctuation)).split()
-    vectors = [word_embedding[i.lower()] if i.lower() in word_embedding.keys() else word_embedding['unk'] for i in input_words]
-    vectors = torch.tensor(vectors).view(len(vectors), 1, -1)
-    output = model(vectors)
-    predicted_label = torch.argmax(output)
-    correct += int(predicted_label == gold_label)
-    total += 1
+    test_data = load_data(args.test_data, args.val_data)[0]
     
-print("Test accuracy: {}".format(correct/total))
-os.makedirs('results', exist_ok=True)
-with open('results/test.out', 'w') as f:
-    f.write("Test accuracy: {}". format(correct/total))
-
-    # You may find it beneficial to keep track of training accuracy or training loss;
-
-    # Think about how to update the model and what this entails. Consider ffnn.py and the PyTorch documentation for guidance
+    model.eval()
+    correct = 0
+    total = 0
+    for input_words, gold_label in tqdm(test_data):
+        input_words = " ".join(input_words)
+        input_words = input_words.translate(input_words.maketrans("", "", string.punctuation)).split()
+        vectors = [word_embedding[i.lower()] if i.lower() in word_embedding.keys() else word_embedding['unk'] for i in input_words]
+        vectors = torch.tensor(vectors).view(len(vectors), 1, -1)
+        output = model(vectors)
+        predicted_label = torch.argmax(output)
+        correct += int(predicted_label == gold_label)
+        total += 1
+        
+    print("Test accuracy: {}".format(correct/total))
+    os.makedirs('results', exist_ok=True)
+    with open('results/test.out', 'w') as f:
+        f.write("Test accuracy: {}". format(correct/total))
+    
+        # You may find it beneficial to keep track of training accuracy or training loss;
+    
+        # Think about how to update the model and what this entails. Consider ffnn.py and the PyTorch documentation for guidance
