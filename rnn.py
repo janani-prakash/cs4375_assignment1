@@ -179,7 +179,7 @@ if __name__ == "__main__":
 
         epoch += 1
         
-    test_data = load_data(args.test_data, args.val_data)[0]
+    test_data = load_data(args.test_data, args.test_data)[0]
     
     model.eval()
     correct = 0
