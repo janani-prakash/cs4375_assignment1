@@ -1,2 +1,3 @@
 # NOTE
-I was unable to get the word_embeddings.pkl file into GitHub, so if you download the code onto your local to test, you may need to copy the file into the cs4375_assignment1 folder (if you're executing the terminal commands whil inside of that folder) :)
+1. I was unable to get the word_embeddings.pkl file into GitHub, so if you download the code onto your local to test, you may need to copy the file into the cs4375_assignment1 folder (if you're executing the terminal commands whil inside of that folder) :)
+2. The other student listed as a contributor just helped me get the project from the provided .zip file into a remote GitHub repository, as it would not transfer all of the necessary files when I tried to do so. He had been able to, so I cloned his repository, which at the time, only contained the shell code that was provided to us. The rest of the code, forward() method implementations, test loop implementations, and the report are my own work.
